@@ -165,4 +165,50 @@ This is DEPRECATED, use %s instead." prelude-modules-file))
  ;; greet the use with some useful tip
  (run-at-time 5 nil 'prelude-tip-of-the-day))
 
+
+;;重新加载配置文件
+(global-set-key [F5] 'Load-File)
+;;快速打开配置文件
+(defun open-init-file()
+  (interactive)
+  (find-file "~/.emacs.d/init.el"))
+(global-set-key [f2] 'open-init-file)
+;;插件安装
+(global-set-key [f1] 'package-install)
+
+;;复制搜索替换
+(global-set-key (kbd "C-o") 'query-replace)
+(global-set-key [f4] 'helm-do-ag-project-root)
+
+;; yes/no to y/n
+(fset 'yes-or-no-p'y-or-n-p)
+
+;;(display-time)
+(display-time)
+
+;;pairs mode
+(show-paren-mode t)
+
+;;no start page
+(setq inhibit-startup-message t)
+
+;;显示行号
+(global-linum-mode 1) ; always show line numbers
+(setq linum-format "%d| ")  ;set format
+;;隐藏菜单栏
+(menu-bar-mode -1)
+
+(setq mweb-tags
+      '((php-mode "<\\?php\\|<\\? \\|<\\?=" "\\?>")
+        (js-mode  "<script[^>]*>" "</script>")
+        (css-mode "<style[^>]*>" "</style>")))
+(setq mweb-filename-extensions '("php" "htm" "html" "ctp" "phtml" "php4" "php5"))
+(multi-web-global-mode 1)
+
+(defun haotianmichael/markdown-to-html ()
+  (interactive)
+  (start-process "grip" "*gfm-to-html*" "grip" (buffer-file-name) "5000")
+  (browse-url (format "http://localhost:5000/%s.%s" (file-name-base) (file-name-extension (buffer-file-name)))))
+(global-set-key (kbd "C-c m")   'haotianmichael/markdown-to-html)  ;给给函数绑定一个快捷键
+
 ;;; init.el ends here
