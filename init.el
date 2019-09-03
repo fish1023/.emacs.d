@@ -196,3 +196,6 @@ This is DEPRECATED, use %s instead." prelude-modules-file))
 ;;关闭空格高亮
 (setq prelude-whitespace nil)
 (add-hook 'before-save-hook (lambda () (whitespace-cleanup)))
+;;高亮当前行
+(global-hl-line-mode 1)
+(set-face-background 'hl-line "#000fff")
