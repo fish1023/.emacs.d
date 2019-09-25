@@ -165,7 +165,6 @@ This is DEPRECATED, use %s instead." prelude-modules-file))
  ;; greet the use with some useful tip
  (run-at-time 5 nil 'prelude-tip-of-the-day))
 
-
 ;;重新加载配置文件
 (global-set-key [F5] 'Load-File)
 ;;快速打开配置文件
@@ -221,4 +220,37 @@ This is DEPRECATED, use %s instead." prelude-modules-file))
             (setq tab-width 4)
             (setq indent-tabs-mode 1)))
 
-;;; init.el ends here
+
+;;保存文件的时候对该源文件做一下gofmt
+(add-hook 'before-save-hook #'gofmt-before-save)
+;;autocomplete
+(set (make-local-variable 'company-backends) '(company-go))
+(company-mode)
+;; Godef jump key binding
+(local-set-key (kbd "C-c C-j") 'godef-jump)
+(local-set-key (kbd "C-c C-m") 'pop-tag-mark)
+
+(add-hook 'go-mode-hook
+          (lambda ()
+            (add-hook 'before-save-hook 'gofmt-before-save)
+            (setq tab-width 4)
+            (setq indent-tabs-mode 1)))
+;;重新加载配置文件
+(global-set-key [F5] 'Load-File)
+;;快速打开配置文件
+(defun Open-Init-File()
+  (Interactive)
+  (Find-file "~/.emacs.d/init.el"))
+(global-set-key [f2] 'open-init-file)
+;;插件安装
+(global-set-key [f1] 'package-install)
+
+;;复制搜索替换
+(global-set-key (kbd "C-o") 'query-replace)
+(global-set-key [f4] 'helm-projectile-ack)
+;;关闭空格高亮
+(setq prelude-whitespace nil)
+(add-hook 'before-save-hook (lambda () (whitespace-cleanup)))
+;;高亮当前行
+(global-hl-line-mode 1)
+(set-face-background 'hl-line "#000fff")
